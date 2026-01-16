@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Ejercicios para Ojo Vago – Entrenamiento Visual Online - Ejercicios para ojo vago</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Ejercicios interactivos para entrenar el ojo vago (ambliopía). Realiza movimientos visuales, seguimiento y fijación directamente desde tu navegador.">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    #cronometro {
+  font-weight: 600;
+  min-width: 55px;
+  text-align: center;
+}
+#cronometroBox {
+  gap: 10px;
+}
+
+.Reset {
+    background-color: transparent;
+    color: white;
+    padding: 0px;
+    border: none;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+    :root {
+      --color-fondo: #020617;
+      --color-panel: #0f172a;
+      --color-acento: #3b82f6;
+      --color-acento2: #f97316;
+      --color-texto: #e5e7eb;
+      --color-suave: #9ca3af;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      min-height: 100vh;
+      background: radial-gradient(circle at top, #111827, var(--color-fondo));
+      color: var(--color-texto);
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 2rem 1rem;
+    }
+
+    main {
+      width: 100%;
+      max-width: 900px;
+      background: rgba(15, 23, 42, 0.92);
+      border-radius: 1.5rem;
+      padding: 2rem;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.65);
+      border: 1px solid rgba(148, 163, 184, 0.25);
+    }
+
+    h1 {
+      font-size: 2rem;
+      text-align: center;
+      margin-bottom: 0.25rem;
+    }
+
+    h1 span {
+      color: var(--color-acento);
+    }
+
+    .sub {
+      text-align: center;
+      font-size: 0.95rem;
+      color: var(--color-suave);
+      margin-bottom: 1.5rem;
+    }
+
+    .aviso {
+      font-size: 0.8rem;
+      color: var(--color-suave);
+      background: rgba(15, 23, 42, 0.9);
+      border-radius: 0.75rem;
+      padding: 0.8rem 1rem;
+      border: 1px dashed rgba(148, 163, 184, 0.6);
+      margin-bottom: 1.5rem;
+    }
+
+    .ejercicios {
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    @media (min-width: 800px) {
+      .ejercicios {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .ejercicio {
+      background: linear-gradient(145deg, #020617, #0b1220);
+      border-radius: 1.25rem;
+      padding: 1.25rem;
+      border: 1px solid rgba(55, 65, 81, 0.8);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+    }
+
+    .ejercicio h2 {
+      font-size: 1.1rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .etiqueta {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--color-suave);
+      margin-bottom: 0.6rem;
+    }
+
+    .descripcion {
+      font-size: 0.85rem;
+      color: var(--color-suave);
+      margin-bottom: 0.75rem;
+    }
+
+    .escena {
+      position: relative;
+      width: 100%;
+      height: 180px;
+      border-radius: 1rem;
+      background: radial-gradient(circle at top, #0f172a, #020617);
+      overflow: hidden;
+      margin-bottom: 0.75rem;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+    }
+
+    .bola {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
+      background: var(--color-acento);
+      box-shadow: 0 0 25px rgba(59, 130, 246, 0.9);
+      animation-play-state: paused; /* Empieza pausado */
+    }
+
+    /* Ejercicio 1: movimiento horizontal */
+    .bola-horizontal {
+      top: 50%;
+      transform: translateY(-50%);
+      animation: mover-horizontal 4s linear infinite alternate;
+    }
+
+    @keyframes mover-horizontal {
+      from {
+        left: 5%;
+      }
+      to {
+        left: calc(95% - 40px);
+      }
+    }
+
+    /* Ejercicio 2: movimiento vertical */
+    .bola-vertical {
+      left: 50%;
+      transform: translateX(-50%);
+      animation: mover-vertical 3s ease-in-out infinite alternate;
+      background: var(--color-acento2);
+      box-shadow: 0 0 25px rgba(249, 115, 22, 0.9);
+    }
+
+    @keyframes mover-vertical {
+      from {
+        top: 5%;
+      }
+      to {
+        top: calc(95% - 40px);
+      }
+    }
+
+    /* Ejercicio 3: diagonal */
+    .bola-diagonal {
+      animation: mover-diagonal 5s linear infinite alternate;
+    }
+
+    @keyframes mover-diagonal {
+      from {
+        top: 10%;
+        left: 10%;
+      }
+      to {
+        top: calc(90% - 40px);
+        left: calc(90% - 40px);
+      }
+    }
+
+    /* Ejercicio 4: parpadeo en el centro */
+    .punto-parpadeo {
+      position: absolute;
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 18px rgba(34, 197, 94, 0.9);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation: parpadeo 1s ease-in-out infinite;
+      animation-play-state: paused;
+    }
+
+    @keyframes parpadeo {
+      0%,
+      100% {
+        opacity: 0.1;
+        transform: translate(-50%, -50%) scale(0.5);
+      }
+      50% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.2);
+      }
+    }
+
+    .controles {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    button {
+      font-size: 0.8rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      padding: 0.4rem 0.9rem;
+      background: #020617;
+      color: var(--color-texto);
+      cursor: pointer;
+      transition: transform 0.12s ease, box-shadow 0.12s ease,
+        background 0.15s ease, border-color 0.15s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.9);
+      border-color: var(--color-acento);
+    }
+
+    button[data-accion="play"] {
+      background: linear-gradient(
+        135deg,
+        var(--color-acento),
+        #1d4ed8
+      );
+      border-color: transparent;
+    }
+
+    button[data-accion="pause"] {
+      background: linear-gradient(
+        135deg,
+        #6b7280,
+        #4b5563
+      );
+      border-color: transparent;
+    }
+
+    footer {
+      margin-top: 1.5rem;
+      font-size: 0.75rem;
+      color: var(--color-suave);
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <h1>Ejercicios para <span>ojo vago</span></h1>
+    <p class="sub">
+      Usa estos estímulos visuales según las indicaciones de tu profesional de la vista.
+    </p>
+
+    <p class="aviso">
+      ⚠️ Esto es solo una herramienta visual educativa. No sustituye la valoración
+      ni el tratamiento de un oftalmólogo u optometrista. Consulta siempre cómo,
+      cuánto tiempo y con qué ojo trabajar.
+    </p>
+
+    <div class="ejercicios">
+      <!-- EJERCICIO 1 -->
+      <section class="ejercicio">
+        <p class="etiqueta">Ejercicio 1</p>
+        <h2>Bola que se mueve de lado a lado</h2>
+        <p class="descripcion">
+          Sigue la bola azul con la vista mientras se desplaza horizontalmente. Intenta no mover la cabeza.
+        </p>
+
+        <div class="escena" data-escena="1">
+          <div class="bola bola-horizontal"></div>
+        </div>
+
+        <div class="controles">
+          <button data-accion="play" data-escena="1">Iniciar</button>
+          <button data-accion="pause" data-escena="1">Pausar</button>
+          <button data-accion="fullscreen" data-escena="1" onclick="location.href='ejercicio1.html'">
+  Pantalla completa
+</button>
+
+        </div>
+      </section>
+
+      <!-- EJERCICIO 2 -->
+      <section class="ejercicio">
+        <p class="etiqueta">Ejercicio 2</p>
+        <h2>Bola que sube y baja</h2>
+        <p class="descripcion">
+          Observa la bola naranja mientras sube y baja. Mantén el enfoque en el movimiento vertical.
+        </p>
+
+        <div class="escena" data-escena="2">
+          <div class="bola bola-vertical"></div>
+        </div>
+
+        <div class="controles">
+          <button data-accion="play" data-escena="2">Iniciar</button>
+          <button data-accion="pause" data-escena="2">Pausar</button>
+          <button data-accion="fullscreen" data-escena="2" onclick="location.href='ejercicio2.html'">
+  Pantalla completa
+</button>
+        </div>
+      </section>
+
+      <!-- EJERCICIO 3 -->
+      <section class="ejercicio">
+        <p class="etiqueta">Ejercicio 3</p>
+        <h2>Movimiento en diagonal</h2>
+        <p class="descripcion">
+          Aquí la bola recorre la pantalla en diagonal. Puedes combinar este con los otros ejercicios.
+        </p>
+
+        <div class="escena" data-escena="3">
+          <div class="bola bola-diagonal"></div>
+        </div>
+
+        <div class="controles">
+          <button data-accion="play" data-escena="3">Iniciar</button>
+          <button data-accion="pause" data-escena="3">Pausar</button>
+          <button data-accion="fullscreen" data-escena="3" onclick="location.href='ejercicio3.html'">
+  Pantalla completa
+</button>
+        </div>
+      </section>
+
+      <!-- EJERCICIO 4 -->
+      <section class="ejercicio">
+        <p class="etiqueta">Ejercicio 4</p>
+        <h2>Punto que parpadea en el centro</h2>
+        <p class="descripcion">
+          Fija la mirada en el punto verde que parpadea en el centro. Intenta mantenerlo nítido todo el tiempo.
+        </p>
+
+        <div class="escena" data-escena="4">
+          <div class="punto-parpadeo"></div>
+        </div>
+
+        <div class="controles">
+          <button data-accion="play" data-escena="4">Iniciar</button>
+          <button data-accion="pause" data-escena="4">Pausar</button>
+          <button data-accion="fullscreen" data-escena="4" onclick="location.href='ejercicio4.html'">
+  Pantalla completa
+</button>
+        </div>
+      </section>
+
+      <!-- EJERCICIO 5 -->
+      <section class="ejercicio">
+  <p class="etiqueta">Ejercicio 5</p>
+  <h2>Movimiento circular</h2>
+  <p class="descripcion">
+    Sigue la bola amarilla mientras da vueltas alrededor de un círculo. Mantén la cabeza quieta y solo mueve los ojos.
+  </p>
+
+  <div class="escena" data-escena="5">
+    <div class="bola bola-circular"></div>
+  </div>
+
+  <div class="controles">
+    <button data-accion="play" data-escena="5">Iniciar</button>
+    <button data-accion="pause" data-escena="5">Pausar</button>
+    <button data-accion="fullscreen" data-escena="5" onclick="location.href='ejercicio5.html'">
+  Pantalla completa
+</button>
+  </div>
+      </section>
+
+      <!-- EJERCICIO 6 -->
+      <section class="ejercicio">
+  <p class="etiqueta">Ejercicio 6</p>
+  <h2>Saltos de fijación (sacádicos)</h2>
+  <p class="descripcion">
+    Observa la bola rosa mientras salta rápidamente de posición en la pantalla. Entrena movimientos rápidos de los ojos.
+  </p>
+
+  <div class="escena" data-escena="6">
+    <div class="bola bola-saltos"></div>
+  </div>
+
+  <div class="controles">
+    <button data-accion="play" data-escena="6">Iniciar</button>
+    <button data-accion="pause" data-escena="6">Pausar</button>
+    <button data-accion="fullscreen" data-escena="6" onclick="location.href='ejercicio6.html'">
+  Pantalla completa
+</button>
+  </div>
+      </section>
+
+    </div>
+
+    <footer>
+      Realizado por Solusoftware + OpenAI GPT-4 &copy; 2025
+    </footer>
+  </main>
+
+  <script>
+    // Botones de iniciar / pausar para cada ejercicio
+    document.querySelectorAll("button[data-accion]").forEach((boton) => {
+      boton.addEventListener("click", () => {
+        const escenaId = boton.dataset.escena;
+        const accion = boton.dataset.accion;
+        const contenedor = document.querySelector(
+          `.escena[data-escena="${escenaId}"]`
+        );
+        if (!contenedor) return;
+
+        // Dentro de cada escena puede haber una .bola o un .punto-parpadeo
+        const elementoAnimado =
+          contenedor.querySelector(".bola") ||
+          contenedor.querySelector(".punto-parpadeo");
+
+        if (!elementoAnimado) return;
+
+        if (accion === "play") {
+          elementoAnimado.style.animationPlayState = "running";
+        } else if (accion === "pause") {
+          elementoAnimado.style.animationPlayState = "paused";
+        }
+      });
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".escena .bola, .escena .punto-parpadeo").forEach(el => {
+    el.style.animationPlayState = "running";
+  });
+});
+
+
+  </script>
+</body>
+</html>

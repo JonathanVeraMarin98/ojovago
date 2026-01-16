@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ejercicio 6 - Saltos de fijación (sacádicos) – Ejercicios para Ojo Vago</title>
+<meta name="description" content="Ejercicio de sacádicos para ojo vago. La bola salta por la pantalla y mejora el seguimiento ocular y la coordinación visual.">
+
+<style>
+  /* Cronómetro */
+  #cronometro {
+    font-weight: 600;
+    min-width: 55px;
+    text-align: center;
+  }
+  #cronometroBox {
+    gap: 10px;
+  }
+  .Reset {
+    background-color: transparent;
+    color: white;
+    padding: 0px;
+    border: none;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  body {
+    margin: 0;
+    background: black;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .escena {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    background: radial-gradient(circle at center, #020617, #111827);
+    overflow: hidden;
+  }
+
+  /* Bola sacádica */
+  .bola-saltos {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #ef4444; /* rojo */
+    box-shadow: 0 0 30px rgba(239,68,68,1);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .toolbar {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    z-index: 10;
+  }
+
+  .volver {
+    padding: 10px 14px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.4);
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    backdrop-filter: blur(6px);
+  }
+
+  .velocidad-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.15);
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.4);
+    backdrop-filter: blur(6px);
+    color: white;
+    font-size: 13px;
+  }
+
+  input[type="range"] {
+    width: 120px;
+    cursor: pointer;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="toolbar">
+  <button class="volver" onclick="location.href='index.html'">⟵ Volver</button>
+
+  <div class="velocidad-box">
+    Velocidad
+    <input id="velocidad" type="range" min="0.2" max="3" value="1" step="0.1">
+  </div>
+
+  <div class="velocidad-box" id="cronometroBox">
+    ⏱ <span id="cronometro">00:00</span>
+    <button class="Reset" id="resetCrono">Reset</button>
+  </div>
+</div>
+
+<div class="escena">
+  <div class="bola-saltos" id="bola"></div>
+</div>
+
+<script>
+  const bola = document.getElementById("bola");
+  const slider = document.getElementById("velocidad");
+
+  // Control de velocidad
+  let velocidad = 1; // factor de velocidad
+  slider.addEventListener("input", () => {
+    velocidad = slider.value;
+  });
+
+  // Función que mueve la bola a posición aleatoria
+  function moverBola() {
+    const maxX = window.innerWidth - 50; // ancho de la bola
+    const maxY = window.innerHeight - 50;
+
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
+
+    bola.style.left = `${x}px`;
+    bola.style.top = `${y}px`;
+
+    // tiempo hasta el próximo salto (más rápido = menos tiempo)
+    const intervalo = 1000 / velocidad;
+    setTimeout(moverBola, intervalo);
+  }
+
+  moverBola(); // inicia los saltos
+
+  // CRONÓMETRO
+  const cronometroSpan = document.getElementById("cronometro");
+  const resetBtn = document.getElementById("resetCrono");
+  let tiempo = 0;
+  let intervaloCrono = setInterval(actualizarCrono, 1000);
+
+  function actualizarCrono() {
+    tiempo++;
+    const min = String(Math.floor(tiempo / 60)).padStart(2,'0');
+    const seg = String(tiempo % 60).padStart(2,'0');
+    cronometroSpan.textContent = `${min}:${seg}`;
+  }
+
+  resetBtn.addEventListener("click", () => {
+    tiempo = 0;
+    cronometroSpan.textContent = "00:00";
+  });
+</script>
+
+</body>
+</html>

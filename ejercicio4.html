@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ejercicio 4 - Ejercicios para Ojo Vago – Punto de Fijación Central (Parpadeo Guiado)</title>
+<meta name="description" content="Ejercicio de fijación visual para ojo vago con punto parpadeante en el centro. Ayuda a mejorar la concentración, la estabilidad ocular y la precisión del enfoque.">
+
+<style>
+     #cronometro {
+  font-weight: 600;
+  min-width: 55px;
+  text-align: center;
+}
+#cronometroBox {
+  gap: 10px;
+}
+
+.Reset {
+    background-color: transparent;
+    color: white;
+    padding: 0px;
+    border: none;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+ 
+  body {
+    margin: 0;
+    background: black;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .escena {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    background: radial-gradient(circle at center, #022c22, #020617);
+    overflow: hidden;
+  }
+
+  .punto {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #22c55e; /* verde */
+    box-shadow: 0 0 30px rgba(34, 197, 94, 1);
+
+    /* centrado en pantalla */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    animation: parpadeo 1s ease-in-out infinite;
+  }
+
+  @keyframes parpadeo {
+    0%, 100% {
+      opacity: 0.1;
+      transform: translate(-50%, -50%) scale(0.6);
+    }
+    50% {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1.2);
+    }
+  }
+
+  .toolbar {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    z-index: 10;
+  }
+
+  .volver {
+    padding: 10px 14px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.4);
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    backdrop-filter: blur(6px);
+  }
+
+  .velocidad-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.15);
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.4);
+    backdrop-filter: blur(6px);
+    color: white;
+    font-size: 13px;
+  }
+
+  input[type="range"] {
+    width: 120px;
+    cursor: pointer;
+  }
+</style>
+
+</head>
+<body>
+
+<div class="toolbar">
+  <button class="volver" onclick="location.href='index.html'">⟵ Volver</button>
+
+  <div class="velocidad-box">
+    Velocidad
+    <input id="velocidad" type="range" min="0.5" max="5" value="1" step="0.1">
+  </div>
+  
+<div class="velocidad-box" id="cronometroBox">
+  ⏱ <span id="cronometro">00:00</span>
+  <button class="Reset" id="resetCrono">Reset</button>
+</div>
+</div>
+
+<div class="escena">
+  <div class="punto" id="punto"></div>
+</div>
+
+<script>
+  const punto = document.getElementById("punto");
+  const slider = document.getElementById("velocidad");
+
+  slider.addEventListener("input", () => {
+    const factor = slider.value;
+    // duración original = 1s → nueva duración = 1 / factor
+    punto.style.animationDuration = (1 / factor) + "s";
+  });
+</script>
+<script src="js/main.js"></script>
+</body>
+</html>

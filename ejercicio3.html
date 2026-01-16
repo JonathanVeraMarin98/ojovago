@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ejercicio 3 - Ejercicios para Ojo Vago – Movimiento Diagonal (Seguimiento Complejo) </title>
+<meta name="description" content="Ejercicio interactivo para ambliopía con movimiento diagonal. Entrena la capacidad de seguimiento ocular en trayectorias complejas que combinan dirección horizontal y vertical.">
+
+<style>
+  body {
+    margin: 0;
+    background: black;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .escena {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    background: radial-gradient(circle at center, #020617, #000000);
+    overflow: hidden;
+  }
+
+.bola {
+  position: absolute;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: #e11d48;
+  box-shadow: 0 0 35px rgba(225, 29, 72, 1);
+  animation: diagonal-1 5s linear infinite alternate;
+}
+  
+
+  .toolbar {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    z-index: 10;
+  }
+
+  .volver {
+    padding: 10px 14px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.4);
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    backdrop-filter: blur(6px);
+  }
+
+  .velocidad-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.15);
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.4);
+    backdrop-filter: blur(6px);
+    color: white;
+    font-size: 13px;
+  }
+
+  input[type="range"] {
+    width: 120px;
+    cursor: pointer;
+  }
+
+  /* Diagonal inversa */
+.bola-diagonal.inversa {
+  animation-name: mover-diagonal-inversa;
+}
+
+/* 4 diagonales */
+@keyframes diagonal-1 {
+  from { top: 0; left: 0; }
+  to { top: calc(100vh - 70px); left: calc(100vw - 70px); }
+}
+
+@keyframes diagonal-2 {
+  from { bottom: 0; left: 0; }
+  to { bottom: calc(100vh - 70px); left: calc(100vw - 70px); }
+}
+
+@keyframes diagonal-3 {
+  from { top: 0; right: 0; }
+  to { top: calc(100vh - 70px); right: calc(100vw - 70px); }
+}
+
+@keyframes diagonal-4 {
+  from { bottom: 0; right: 0; }
+  to { bottom: calc(100vh - 70px); right: calc(100vw - 70px); }
+}
+
+
+   #cronometro {
+  font-weight: 600;
+  min-width: 55px;
+  text-align: center;
+}
+#cronometroBox {
+  gap: 10px;
+}
+
+.Reset {
+    background-color: transparent;
+    color: white;
+    padding: 0px;
+    border: none;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+ 
+
+</style>
+
+</head>
+<body>
+
+<div class="toolbar">
+  <button class="volver" onclick="location.href='index.html'">⟵ Volver</button>
+
+  <div class="velocidad-box">
+    Velocidad
+    <input id="velocidad" type="range" min="0.5" max="5" value="1" step="0.1">
+  </div>
+  <button class="volver" id="cambiarDiagonal">
+  Cambiar diagonal
+</button>
+
+<div class="velocidad-box" id="cronometroBox">
+  ⏱ <span id="cronometro">00:00</span>
+  <button class="Reset" id="resetCrono">Reset</button>
+</div>
+
+
+</div>
+
+<div class="escena">
+  <div class="bola" id="bola"></div>
+</div>
+
+<script>
+  const bola = document.getElementById("bola");
+  const slider = document.getElementById("velocidad");
+  const btnCambiar = document.getElementById("cambiarDiagonal");
+  const cronometro = document.getElementById("cronometro");
+  const resetCrono = document.getElementById("resetCrono");
+
+  let diagonalActual = 1;
+  const duracionBase = 5;
+
+  /* ======================
+     VELOCIDAD
+  ====================== */
+  slider.addEventListener("input", () => {
+    bola.style.animationDuration = (duracionBase / slider.value) + "s";
+  });
+
+  /* ======================
+     CAMBIAR DIAGONAL
+  ====================== */
+  btnCambiar.addEventListener("click", () => {
+    diagonalActual++;
+    if (diagonalActual > 4) diagonalActual = 1;
+
+    bola.style.animation = "none";
+    bola.offsetHeight;
+    bola.style.animation = `diagonal-${diagonalActual} ${duracionBase / slider.value}s linear infinite alternate`;
+  });
+
+  /* ======================
+     CRONÓMETRO
+  ====================== */
+  let segundos = 0;
+  let intervalo = null;
+
+  function actualizarCrono() {
+    segundos++;
+    const min = String(Math.floor(segundos / 60)).padStart(2, "0");
+    const sec = String(segundos % 60).padStart(2, "0");
+    cronometro.textContent = `${min}:${sec}`;
+  }
+
+  function iniciarCrono() {
+    if (!intervalo) {
+      intervalo = setInterval(actualizarCrono, 1000);
+    }
+  }
+
+  function resetearCrono() {
+    clearInterval(intervalo);
+    intervalo = null;
+    segundos = 0;
+    cronometro.textContent = "00:00";
+    iniciarCrono();
+  }
+
+  resetCrono.addEventListener("click", resetearCrono);
+
+  // iniciar automáticamente
+  iniciarCrono();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ejercicio 5 - Movimiento Circular – Ejercicios para Ojo Vago</title>
+<meta name="description" content="Ejercicio interactivo para ojo vago con movimiento circular. Entrena la coordinación y seguimiento ocular.">
+
+<style>
+  /* Cronómetro */
+  #cronometro {
+    font-weight: 600;
+    min-width: 55px;
+    text-align: center;
+  }
+  #cronometroBox {
+    gap: 10px;
+  }
+  .Reset {
+    background-color: transparent;
+    color: white;
+    padding: 0px;
+    border: none;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  body {
+    margin: 0;
+    background: black;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .escena {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    background: radial-gradient(circle at center, #020617, #111827);
+    overflow: hidden;
+  }
+
+  /* Bola circular */
+  .bola-circular {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #facc15; /* amarillo */
+    box-shadow: 0 0 35px rgba(250, 204, 21, 1);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: mover-circular 6s linear infinite;
+  }
+
+  @keyframes mover-circular {
+    0% { transform: rotate(0deg) translateX(150px) rotate(0deg); }
+    100% { transform: rotate(360deg) translateX(150px) rotate(-360deg); }
+  }
+
+  .toolbar {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    z-index: 10;
+  }
+
+  .volver {
+    padding: 10px 14px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.4);
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    backdrop-filter: blur(6px);
+  }
+
+  .velocidad-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.15);
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.4);
+    backdrop-filter: blur(6px);
+    color: white;
+    font-size: 13px;
+  }
+
+  input[type="range"] {
+    width: 120px;
+    cursor: pointer;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="toolbar">
+  <button class="volver" onclick="location.href='index.html'">⟵ Volver</button>
+
+  <div class="velocidad-box">
+    Velocidad
+    <input id="velocidad" type="range" min="0.5" max="5" value="1" step="0.1">
+  </div>
+
+  <div class="velocidad-box" id="cronometroBox">
+    ⏱ <span id="cronometro">00:00</span>
+    <button class="Reset" id="resetCrono">Reset</button>
+  </div>
+</div>
+
+<div class="escena">
+  <div class="bola-circular" id="bola"></div>
+</div>
+
+<script>
+  // CONTROL DE VELOCIDAD
+  const bola = document.getElementById("bola");
+  const slider = document.getElementById("velocidad");
+
+  slider.addEventListener("input", () => {
+    const factor = slider.value;
+    // duración original = 6s → nueva duración = 6 / factor
+    bola.style.animationDuration = (6 / factor) + "s";
+  });
+
+  // CRONÓMETRO
+  const cronometroSpan = document.getElementById("cronometro");
+  const resetBtn = document.getElementById("resetCrono");
+  let tiempo = 0;
+  let intervalo;
+
+  function actualizarCrono() {
+    tiempo++;
+    const min = String(Math.floor(tiempo / 60)).padStart(2,'0');
+    const seg = String(tiempo % 60).padStart(2,'0');
+    cronometroSpan.textContent = `${min}:${seg}`;
+  }
+
+  // iniciar cronómetro al cargar
+  intervalo = setInterval(actualizarCrono, 1000);
+
+  resetBtn.addEventListener("click", () => {
+    tiempo = 0;
+    cronometroSpan.textContent = "00:00";
+  });
+</script>
+
+</body>
+</html>
